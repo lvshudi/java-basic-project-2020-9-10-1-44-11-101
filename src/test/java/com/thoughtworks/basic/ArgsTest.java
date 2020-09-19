@@ -51,4 +51,40 @@ public class ArgsTest {
         assertEquals("[Arg{flag='l', value=true}, Arg{flag='p', value=8080}, Arg{flag='d', value=/usr/logs}]"
                 ,args.getArgList().toString());
     }
+
+    @Test
+    public void should_throw_error_no_blank_when_have_blank() throws Exception {
+        String inputArgs = "-d t  rue -l ";
+
+        try {
+            Args args = new Args(inputArgs);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            assertEquals(exception.getMessage(), "指令中不能含有空格！");
+        }
+    }
+
+    @Test
+    public void should_throw_error_no_blank_when_p_not_num() throws Exception {
+        String inputArgs = "-p aaa";
+
+        try {
+            Args args = new Args(inputArgs);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            assertEquals(exception.getMessage(), "命令P的参数仅能为数字!");
+        }
+    }
+
+    @Test
+    public void should_throw_error_when_l_not_boolean() throws Exception {
+        String inputArgs = "-l aaa";
+
+        try {
+            Args args = new Args(inputArgs);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            assertEquals(exception.getMessage(), "L的命令仅能为true或者false");
+        }
+    }
 }
